@@ -1,0 +1,14 @@
+server:
+  port: 8081
+
+vehicle:
+  service:
+    url: http://localhost:8080/api/v1/vehicle
+
+ff4j:
+  webconsole:
+    enabled: true
+
+spring:
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
