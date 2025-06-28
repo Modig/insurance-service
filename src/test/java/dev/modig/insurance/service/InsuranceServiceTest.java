@@ -44,7 +44,7 @@ public class InsuranceServiceTest {
         WebClient.ResponseSpec responseSpecMock = mock(WebClient.ResponseSpec.class);
 
         when(vehicleWebClient.get()).thenReturn(uriSpecMock);
-        when(uriSpecMock.uri(eq("/{registrationNumber}"), eq("ABC123"))).thenReturn(headersSpecMock);
+        when(uriSpecMock.uri(("/{registrationNumber}"), ("ABC123"))).thenReturn(headersSpecMock);
         when(headersSpecMock.retrieve()).thenReturn(responseSpecMock);
         when(responseSpecMock.onStatus(any(), any())).thenReturn(responseSpecMock);
         when(responseSpecMock.bodyToMono(Vehicle.class)).thenReturn(Mono.just(vehicle));
@@ -101,7 +101,7 @@ public class InsuranceServiceTest {
         WebClient.ResponseSpec responseSpecMock = mock(WebClient.ResponseSpec.class);
 
         when(vehicleWebClient.get()).thenReturn(uriSpecMock);
-        when(uriSpecMock.uri(eq("/{registrationNumber}"), eq("CAR123"))).thenReturn(headersSpecMock);
+        when(uriSpecMock.uri(("/{registrationNumber}"), ("CAR123"))).thenReturn(headersSpecMock);
         when(headersSpecMock.retrieve()).thenReturn(responseSpecMock);
         when(responseSpecMock.onStatus(any(), any())).thenReturn(responseSpecMock);
         when(responseSpecMock.bodyToMono(Vehicle.class)).thenReturn(Mono.just(vehicle));
@@ -117,7 +117,7 @@ public class InsuranceServiceTest {
 
         int expectedDiscounted = (int) Math.round(expectedTotal * 0.9);
         CarInsurance resultCar = (CarInsurance) response.insurances().stream()
-                .filter(i -> i instanceof CarInsurance)
+                .filter(CarInsurance.class::isInstance)
                 .findFirst()
                 .orElseThrow();
 

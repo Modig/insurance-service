@@ -43,12 +43,12 @@ class InsuranceE2ETest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(body).isNotNull();
         assertThat(body.personalNumber()).isEqualTo("199001011234");
-        assertThat(body.totalCost()).isGreaterThan(0);
-        assertThat(body.discountedTotalCost()).isNotNull();
-        assertThat(body.insurances()).hasSizeGreaterThanOrEqualTo(2);
+        assertThat(body.totalCost()).isEqualTo(80);
+        assertThat(body.discountedTotalCost()).isEqualTo(72);
+        assertThat(body.insurances()).hasSize(3);
 
-        boolean containsCar = body.insurances().stream().anyMatch(i -> i instanceof CarInsurance);
-        boolean containsHealth = body.insurances().stream().anyMatch(i -> i instanceof HealthInsurance);
+        boolean containsCar = body.insurances().stream().anyMatch(CarInsurance.class::isInstance);
+        boolean containsHealth = body.insurances().stream().anyMatch(HealthInsurance.class::isInstance);
 
         assertThat(containsCar).isTrue();
         assertThat(containsHealth).isTrue();
@@ -56,10 +56,15 @@ class InsuranceE2ETest {
 
     @Test
     void testGetInsurancesNoDiscount() {
-        ResponseEntity<String> response = restTemplate.getForEntity(baseUrl() + "/19900101-9999", String.class);
+        ResponseEntity<PersonInsuranceResponse> response = restTemplate.getForEntity(baseUrl() + "/19010101-0015", PersonInsuranceResponse.class);
 
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
-        assertThat(response.getBody()).isEqualTo("Insurance not found");
+        PersonInsuranceResponse body = response.getBody();
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(body).isNotNull();
+        assertThat(body.personalNumber()).isEqualTo("190101010015");
+        assertThat(body.totalCost()).isEqualTo(40);
+        assertThat(body.discountedTotalCost()).isNull();
+        assertThat(body.insurances()).hasSize(3);
     }
 
     @SuppressWarnings("unchecked")

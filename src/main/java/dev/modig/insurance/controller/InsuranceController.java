@@ -52,7 +52,7 @@ public class InsuranceController {
     @GetMapping("/{personalNumber}")
     public ResponseEntity<?> getInsuranceInfo(@PathVariable("personalNumber") String personalNumber) {
         String strippedPersonalNumber = personalNumber.replace("-", "");
-        if (!strippedPersonalNumber.matches("^[0-9]{1,12}$")) {
+        if (!strippedPersonalNumber.matches("^\\d{1,12}$")) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid personal number");
         }
 
