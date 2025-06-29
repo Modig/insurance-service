@@ -25,7 +25,7 @@ details.
 - Java 21
 - Maven 3.8+
 - Git
-- [Vehicle Service](https://github.com/your-org/vehicle-service) running locally or accessible via network
+- [Vehicle Service](https://github.com/modig/vehicle-service) running locally or accessible via network
 
 ### Clone the Repository
 
