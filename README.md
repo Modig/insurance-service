@@ -252,6 +252,10 @@ that could evolve into a full-fledged system by:
 - Introducing API versioning to make behavior changes easier to manage in a backward-compatible way.
 - Integrating a feature toggle mechanism using FF4j to enable controlled rollouts and runtime configuration.
 
+Another thing that could be debated if REST versus Messaging. My experience tells me that each time a microservices call
+another microservice it can be taken as a trigger to think about if a messaging solution might be more suitable. Often
+it is not, but sometimes it is.
+
 ### Feature Toggling
 
 This solution demonstrates two types of feature toggles: runtime toggles via FF4j, and versioning-based toggling at the
@@ -261,7 +265,7 @@ versions by routing.
 The FF4j-based toggle system supports user-targeted toggling, runtime enable/disable through the web console, and basic
 canary testing (via `ToggleService.isInCanaryGroup()`).
 
-The application doesn’t currently support green/blue deployments. This is mainly because deployment infrastructure was
+The application doesn’t currently support blue/green deployments. This is mainly because deployment infrastructure was
 scoped out of this assignment. However, the architecture doesn’t prevent such a deployment model from being added in the
 future.
 
@@ -277,6 +281,29 @@ Tests are integrated into the CI/CD pipeline. A failing test will block deployme
 The test coverage follows the test pyramid fairly well. That said, I believe the classic test pyramid is becoming more
 of a guideline than a strict rule, especially as tooling and deployment patterns evolve.
 
+### DevOps
+
+DevOps has been one of the biggest paradigm shifts in software development during my career. I strongly believe in the
+value it brings, and I’ve reflected that in this solution by providing:
+
+* Automated tests on multiple levels, integrated into the GitHub workflow.
+* CI/CD pipeline support.
+* Infrastructure as Code via GitHub Actions.
+* Safe releases enforced by test-driven deployment logic (even though the deploy step is currently deactivated).
+
+### Documentation
+
+I believe documentation is important, especially for external APIs, onboarding new team members, and understanding what
+I built a year ago. However, documentation can easily become outdated if not managed carefully.
+
+In this solution, I aimed to keep documentation **close to the code** to increase its chance of staying up to date. This
+includes:
+
+* Clean and readable code structure.
+* Javadoc for key components.
+* Auto-generated API documentation with Swagger/OpenAPI.
+* This `README.md` file as an accessible overview.
+
 ### Personal Reflection
 
 This project closely resembles challenges I’ve tackled in previous roles, for example, during three years of work
@@ -287,6 +314,7 @@ in-house feature toggle frameworks.
 
 If I were to take this further, I would focus on resolving the major blockers for production readiness:
 
-- Add real database storage instead of in-memory hardcoded values.
-- Introduce authentication and authorization, potentially using Spring Security with OAuth2 and JWT.
-- Other security enhancements like input validation/sanitation.
+* Add real database storage instead of in-memory hardcoded values.
+* Introduce authentication and authorization, potentially using Spring Security with OAuth2 and JWT.
+* Other security enhancements like input validation/sanitation.
+* Add observability and monitoring when deployed
